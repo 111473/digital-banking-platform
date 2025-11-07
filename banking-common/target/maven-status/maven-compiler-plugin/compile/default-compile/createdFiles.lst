@@ -1,0 +1,10 @@
+com\banking\events\BranchAssignmentEvent.class
+com\banking\events\CustomerAccountCreatedEvent.class
+com\banking\events\ApplicationApprovedEvent$ApplicationApprovedEventBuilder.class
+com\banking\events\TransactionCreatedEvent$TransactionCreatedEventBuilder.class
+com\banking\events\TransactionCreatedEvent.class
+com\banking\events\BankAccountCreatedEvent.class
+com\banking\events\ApplicationApprovedEvent.class
+com\banking\events\BranchAssignmentEvent$BranchAssignmentEventBuilder.class
+com\banking\events\CustomerAccountCreatedEvent$CustomerAccountCreatedEventBuilder.class
+com\banking\events\BankAccountCreatedEvent$BankAccountCreatedEventBuilder.class

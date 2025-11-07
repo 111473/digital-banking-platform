@@ -1,0 +1,11 @@
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\dto\BankAccountRequest.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\dto\BankAccountResponse.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\entity\BankAccountEntity.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\service\BankAccountService.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\BankAccountServiceApplication.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\enums\AccountStatus.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\repository\BankAccountRepository.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\config\KafkaConfig.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\controller\BankAccountController.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\enums\AccountType.java
+C:\Workspace\SpringBoot\digital-banking-platform\bank-account-service\src\main\java\com\banking\bankaccount\exception\ResourceNotFoundException.java

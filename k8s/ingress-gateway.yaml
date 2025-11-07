@@ -1,0 +1,88 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: banking-ingress
+  namespace: banking
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: banking.local
+      http:
+        paths:
+          # Account Opening Service
+          - path: /account-opening(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: account-opening-service
+                port:
+                  number: 8081
+
+          # Customer Account Service
+          - path: /customer-account(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: customer-account-service
+                port:
+                  number: 8082
+
+          # Bank Account Service
+          - path: /bank-account(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: bank-account-service
+                port:
+                  number: 8083
+
+          # Default route to account opening (optional)
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: account-opening-service
+                port:
+                  number: 8081
+
+---
+# Alternative: Simple Ingress without path rewriting
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: banking-ingress-simple
+  namespace: banking
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: banking.local
+      http:
+        paths:
+          - path: /api/applications
+            pathType: Prefix
+            backend:
+              service:
+                name: account-opening-service
+                port:
+                  number: 8081
+
+          - path: /api/customers
+            pathType: Prefix
+            backend:
+              service:
+                name: customer-account-service
+                port:
+                  number: 8082
+
+          - path: /api/accounts
+            pathType: Prefix
+            backend:
+              service:
+                name: bank-account-service
+                port:
+                  number: 8083
