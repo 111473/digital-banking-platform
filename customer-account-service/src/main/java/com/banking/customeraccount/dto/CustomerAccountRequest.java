@@ -25,9 +25,14 @@ import lombok.*;
 @Builder
 public class CustomerAccountRequest {
 
-    @NotBlank(message = "Name is required")
-    @Size(min = 2, max = 100)
+    @NotBlank(message = "Firstname is required")
     private String name;
+
+    @NotBlank(message = "Middle name is required")
+    private String middleName;
+
+    @NotBlank(message = "Lastname is required")
+    private String lastName;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
@@ -37,8 +42,17 @@ public class CustomerAccountRequest {
     @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$")
     private String phoneNumber;
 
-    @NotBlank(message = "Address is required")
-    private String address;
+    @NotBlank(message = "Region is required")
+    private String region;
+
+    @NotBlank(message = "Province is required")
+    private String province;
+
+    @NotBlank(message = "Municipality is required")
+    private String municipality;
+
+    @NotBlank(message = "Street is required")
+    private String street;
 
     @NotNull(message = "Identity type is required")
     private IdentityType identityType;
