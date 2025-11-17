@@ -104,10 +104,12 @@ public class BankAccountService {
             BankAccountEntity bankAccount = new BankAccountEntity();
             bankAccount.setAccountNumber(accountNumber);
             bankAccount.setCustomerId(event.getCustomerId());
-            bankAccount.setCustomerName(event.getName());
+            bankAccount.setFirstName(event.getFirstName());
+            bankAccount.setMiddleName(event.getMiddleName());
+            bankAccount.setLastName(event.getLastName());
             bankAccount.setAccountType(accountType);
 
-            // ✅ NEW: Set branch information
+            // Set branch information
             bankAccount.setBranchCode(event.getBranchCode());
 
             // Set initial balance based on account type
@@ -164,7 +166,9 @@ public class BankAccountService {
             BankAccountCreatedEvent event = BankAccountCreatedEvent.builder()
                     .accountNumber(bankAccount.getAccountNumber())
                     .customerId(bankAccount.getCustomerId())
-                    .customerName(bankAccount.getCustomerName())
+                    .firstName(bankAccount.getFirstName())
+                    .middleName(bankAccount.getMiddleName())
+                    .lastName(bankAccount.getLastName())
                     .branchCode(bankAccount.getBranchCode())  // ✅ NEW
                     .accountType(bankAccount.getAccountType().name())
                     .initialBalance(bankAccount.getBalance())
@@ -313,8 +317,10 @@ public class BankAccountService {
         BankAccountResponse response = new BankAccountResponse();
         response.setAccountNumber(entity.getAccountNumber());
         response.setCustomerId(entity.getCustomerId());
-        response.setCustomerName(entity.getCustomerName());
-        response.setBranchCode(entity.getBranchCode());  // ✅ NEW
+        response.setFirstName(entity.getFirstName());
+        response.setMiddleName(entity.getMiddleName());
+        response.setLastName(entity.getLastName());
+        response.setBranchCode(entity.getBranchCode());
         response.setAccountType(entity.getAccountType());
         response.setBalance(entity.getBalance());
         response.setInterestRate(entity.getInterestRate());
