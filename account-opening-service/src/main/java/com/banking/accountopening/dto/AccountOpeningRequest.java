@@ -25,9 +25,14 @@ public class AccountOpeningRequest {
     @NotNull(message = "Currency type is required")
     private CurrencyType currencyType;
 
-    @NotBlank(message = "Name is required")
-    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
-    private String name;
+    @NotBlank(message = "First name is required")
+    private String firstName;
+
+    @NotBlank(message = "Middle name is required")
+    private String middleName;
+
+    @NotBlank(message = "Last name is required")
+    private String lastName;
 
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Invalid phone number format")
@@ -37,8 +42,17 @@ public class AccountOpeningRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Address is required")
-    private String address;
+    @NotBlank(message = "Region is required")
+    private String region;
+
+    @NotBlank(message = "Province name is required")
+    private String province;
+
+    @NotBlank(message = "Municipality name is required")
+    private String municipality;
+
+    @NotBlank(message = "Street name is required")
+    private String street;
 
     @NotNull(message = "Identity type is required")
     private IdentityType identityType;

@@ -17,8 +17,10 @@ public class BankAccountResponse {
 
     private Integer accountNumber;
     private Integer customerId;
-    private String customerName;
-    private String branchCode;  // ✅ NEW: Branch information
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String branchCode;
     private AccountType accountType;
     private Double balance;
     private Double interestRate;

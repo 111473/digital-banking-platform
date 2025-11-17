@@ -19,16 +19,21 @@ public class ApplicationApprovedEvent {
 
     // Application details
     private Integer applicationId;
-    private String name;
-    private String email;
-    private String phoneNumber;
-    private String address;
-    private String identityType;  // Store as String to avoid enum dependency
-    private String idRefNumber;
+    private LocalDateTime applicationDate;
     private String accountType;   // Store as String
     private String currencyType;  // Store as String
     private String kycStatus;     // Store as String
-    private LocalDateTime applicationDate;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
+    private String region;
+    private String province;
+    private String municipality;
+    private String street;
+    private String identityType;  // Store as String to avoid enum dependency
+    private String idRefNumber;
 
     // Event metadata
     private String eventId;

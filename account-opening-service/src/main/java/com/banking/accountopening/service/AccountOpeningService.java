@@ -47,10 +47,15 @@ public class AccountOpeningService {
         entity.setApplicationId(nextId);
         entity.setAccountType(request.getAccountType());
         entity.setCurrencyType(request.getCurrencyType());
-        entity.setName(request.getName());
+        entity.setFirstName(request.getFirstName());
+        entity.setMiddleName(request.getMiddleName());
+        entity.setLastName(request.getLastName());
         entity.setPhoneNumber(request.getPhoneNumber());
         entity.setEmail(request.getEmail());
-        entity.setAddress(request.getAddress());
+        entity.setRegion(request.getRegion());
+        entity.setProvince(request.getProvince());
+        entity.setMunicipality(request.getMunicipality());
+        entity.setStreet(request.getStreet());
         entity.setIdentityType(request.getIdentityType());
         entity.setIdRefNumber(request.getIdRefNumber());
         entity.setApplicationDate(LocalDateTime.now());
@@ -144,10 +149,15 @@ public class AccountOpeningService {
         try {
             ApplicationApprovedEvent event = ApplicationApprovedEvent.builder()
                     .applicationId(application.getApplicationId())
-                    .name(application.getName())
+                    .firstName(application.getFirstName())
+                    .middleName(application.getMiddleName())
+                    .lastName(application.getMiddleName())
                     .email(application.getEmail())
                     .phoneNumber(application.getPhoneNumber())
-                    .address(application.getAddress())
+                    .region(application.getRegion())
+                    .province(application.getProvince())
+                    .municipality(application.getMunicipality())
+                    .street(application.getStreet())
                     .identityType(application.getIdentityType().name())
                     .idRefNumber(application.getIdRefNumber())
                     .accountType(application.getAccountType().name())
@@ -224,7 +234,9 @@ public class AccountOpeningService {
         response.setCurrencyType(entity.getCurrencyType());
         response.setApplicationStatus(entity.getApplicationStatus());
         response.setKycStatus(entity.getKycStatus());
-        response.setName(entity.getName());
+        response.setFirstName(entity.getFirstName());
+        response.setMiddleName(entity.getMiddleName());
+        response.setLastName(entity.getLastName());
         response.setEmail(entity.getEmail());
         response.setApplicationDate(entity.getApplicationDate());
         response.setCreatedAt(entity.getCreatedAt());

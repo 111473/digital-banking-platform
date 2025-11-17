@@ -30,16 +30,18 @@ public class BankAccountEntity {
     @Column(name = "account_number", unique = true, nullable = false)
     private Integer accountNumber;
 
-    // ✅ Store customerId instead of CustomerAccountEntity reference
-    // This maintains loose coupling between services
     @Column(name = "customer_id", nullable = false)
     private Integer customerId;
 
-    // Store customer info for quick access (denormalized)
-    @Column(name = "customer_name", nullable = false)
-    private String customerName;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    // ✅ NEW: Store branch information
+    @Column(name = "middle_name", nullable = false)
+    private String middleName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
     @Column(name = "branch_code")
     private String branchCode;
 

@@ -19,6 +19,22 @@ data:
     spring.jpa.show-sql=true
     spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
     
+    # Redis Configuration
+    spring.redis.host=redis-service
+    spring.redis.port=6379
+    spring.redis.password=
+    spring.redis.database=0
+    spring.redis.timeout=3000
+    spring.redis.lettuce.pool.max-active=8
+    spring.redis.lettuce.pool.max-idle=8
+    spring.redis.lettuce.pool.min-idle=2
+    spring.redis.lettuce.pool.max-wait=2000
+    
+    # Cache Configuration
+    spring.cache.type=redis
+    spring.cache.redis.time-to-live=600000
+    spring.cache.redis.cache-null-values=false
+    
     # Kafka Configuration
     spring.kafka.bootstrap-servers=kafka-service:9092
     spring.kafka.consumer.group-id=customer-account-service
@@ -33,10 +49,23 @@ data:
     spring.cloud.discovery.enabled=false
     
     # Actuator
-    management.endpoints.web.exposure.include=health,info
+    management.endpoints.web.exposure.include=health,info,metrics,prometheus,caches
     management.endpoint.health.probes.enabled=true
+    management.endpoint.health.show-details=always
     management.health.livenessState.enabled=true
     management.health.readinessState.enabled=true
+    management.endpoint.caches.enabled=true
+    
+    # Metrics
+    management.metrics.enable.cache=true
+    
+    # Logging
+    logging.level.root=INFO
+    logging.level.com.banking.customeraccount=DEBUG
+    logging.level.org.springframework.cache=DEBUG
+    
+    # Scheduling
+    spring.task.scheduling.pool.size=2
 
 ---
 apiVersion: apps/v1
@@ -44,8 +73,10 @@ kind: Deployment
 metadata:
   name: customer-account-service
   namespace: banking
+  labels:
+    app: customer-account-service
 spec:
-  replicas: 1
+  replicas: 2  # Increased for high availability
   selector:
     matchLabels:
       app: customer-account-service
@@ -53,6 +84,10 @@ spec:
     metadata:
       labels:
         app: customer-account-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8082"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: customer-account-service
@@ -60,9 +95,10 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8082
+              name: http
           env:
             - name: JAVA_OPTS
-              value: "-Xmx448m -Xms224m -XX:+UseG1GC -XX:MaxMetaspaceSize=128m -XX:MaxGCPauseMillis=100"
+              value: "-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxMetaspaceSize=128m -XX:MaxGCPauseMillis=100"
             - name: SPRING_CONFIG_LOCATION
               value: file:/config/application.properties
             - name: SPRING_PROFILES_ACTIVE
@@ -92,7 +128,7 @@ spec:
               memory: "512Mi"
               cpu: "300m"
             limits:
-              memory: "896Mi"
+              memory: "1Gi"
               cpu: "750m"
       volumes:
         - name: config
@@ -102,6 +138,9 @@ spec:
         - name: wait-for-postgres
           image: busybox:1.28
           command: ['sh', '-c', 'until nc -z postgres-service 5432; do echo waiting for postgres; sleep 2; done;']
+        - name: wait-for-redis
+          image: busybox:1.28
+          command: ['sh', '-c', 'until nc -z redis-service 6379; do echo waiting for redis; sleep 2; done;']
         - name: wait-for-kafka
           image: busybox:1.28
           command: ['sh', '-c', 'until nc -z kafka-service 9092; do echo waiting for kafka; sleep 2; done;']
@@ -115,6 +154,8 @@ kind: Service
 metadata:
   name: customer-account-service
   namespace: banking
+  labels:
+    app: customer-account-service
 spec:
   type: NodePort
   selector:
@@ -124,3 +165,32 @@ spec:
       port: 8082
       targetPort: 8082
       nodePort: 30082
+      name: http
+
+---
+# Horizontal Pod Autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: customer-account-hpa
+  namespace: banking
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: customer-account-service
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80

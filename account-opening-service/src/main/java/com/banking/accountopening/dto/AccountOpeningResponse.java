@@ -27,7 +27,9 @@ public class AccountOpeningResponse {
     private CurrencyType currencyType;
     private ApplicationStatus applicationStatus;
     private KYCStatus kycStatus;
-    private String name;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String email;
     private LocalDateTime applicationDate;
     private LocalDateTime createdAt;

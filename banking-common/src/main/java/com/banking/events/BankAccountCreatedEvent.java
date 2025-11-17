@@ -20,8 +20,10 @@ public class BankAccountCreatedEvent {
     // Bank account details
     private Integer accountNumber;
     private Integer customerId;
-    private String customerName;
-    private String branchCode;  // ✅ NEW: Branch information
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String branchCode;
     private String accountType;
     private Double initialBalance;
     private Double interestRate;
