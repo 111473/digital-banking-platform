@@ -104,7 +104,9 @@ public class CustomerAccountService {
             log.info("✅ [CREATED] Customer account | CustomerId: {} | ApplicationId: {} | Name: {} | Type: {}",
                     savedCustomer.getCustomerId(),
                     savedCustomer.getApplicationId(),
-                    savedCustomer.getName(),
+                    savedCustomer.getFirstName(),
+                    savedCustomer.getMiddleName(),
+                    savedCustomer.getLastName(),
                     savedCustomer.getAccountType());
 
             // Step 5: Automatic Branch Assignment (NEW)
@@ -165,10 +167,15 @@ public class CustomerAccountService {
         return CustomerAccountEntity.builder()
                 .customerId(customerId)
                 .applicationId(event.getApplicationId())
-                .name(event.getName())
+                .firstName(event.getFirstName())
+                .middleName(event.getMiddleName())
+                .lastName(event.getLastName())
                 .email(event.getEmail())
                 .phoneNumber(event.getPhoneNumber())
-                .address(event.getAddress())
+                .region(event.getRegion())
+                .province(event.getProvince())
+                .municipality(event.getMunicipality())
+                .street(event.getStreet())
                 .identityType(identityType)
                 .idRefNumber(event.getIdRefNumber())
                 .accountType(accountType)
@@ -193,7 +200,9 @@ public class CustomerAccountService {
             CustomerAccountCreatedEvent event = CustomerAccountCreatedEvent.builder()
                     .customerId(customer.getCustomerId())
                     .applicationId(customer.getApplicationId())
-                    .name(customer.getName())
+                    .firstName(customer.getFirstName())
+                    .middleName(customer.getMiddleName())
+                    .lastName(customer.getLastName())
                     .email(customer.getEmail())
                     .phoneNumber(customer.getPhoneNumber())
                     .accountType(customer.getAccountType().name())
@@ -279,7 +288,10 @@ public class CustomerAccountService {
     public CustomerAccountResponse updateCustomerContact(Integer customerId,
                                                          String phoneNumber,
                                                          String email,
-                                                         String address) {
+                                                         String region,
+                                                         String province,
+                                                         String municipality,
+                                                         String street) {
         CustomerAccountEntity customer = customerRepository.findByCustomerId(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Customer not found with ID: " + customerId));
@@ -290,13 +302,22 @@ public class CustomerAccountService {
         if (email != null && !email.isBlank()) {
             customer.setEmail(email);
         }
-        if (address != null && !address.isBlank()) {
-            customer.setAddress(address);
+        if (region != null && !region.isBlank()) {
+            customer.setRegion(region);
+        }
+        if (province != null && !province.isBlank()) {
+            customer.setProvince(province);
+        }
+        if (municipality != null && !municipality.isBlank()) {
+            customer.setMunicipality(municipality);
+        }
+        if (street != null && !street.isBlank()) {
+            customer.setStreet(street);
         }
 
         CustomerAccountEntity updated = customerRepository.save(customer);
-        log.info("✅ [CONTACT_UPDATED] CustomerId: {} | Phone: {} | Email: {} | Address: {}",
-                customerId, phoneNumber != null, email != null, address != null);
+        log.info("✅ [CONTACT_UPDATED] CustomerId: {} | Phone: {} | Email: {} | Region: {} | Province: {} | Municipality: {} | Street: {}",
+                customerId, phoneNumber != null, email != null, region != null, province != null, municipality != null, street != null);
 
         return toResponse(updated);
     }
@@ -369,7 +390,9 @@ public class CustomerAccountService {
         CustomerAccountResponse response = new CustomerAccountResponse();
         response.setCustomerId(entity.getCustomerId());
         response.setApplicationId(entity.getApplicationId());
-        response.setName(entity.getName());
+        response.setFirstName(entity.getFirstName());
+        response.setMiddleName(entity.getMiddleName());
+        response.setLastName(entity.getLastName());
         response.setEmail(entity.getEmail());
         response.setPhoneNumber(entity.getPhoneNumber());
         response.setAccountType(entity.getAccountType());

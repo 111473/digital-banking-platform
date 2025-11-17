@@ -23,7 +23,9 @@ public class CustomerAccountResponse {
 
     private Integer customerId;
     private Integer applicationId;
-    private String name;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String email;
     private String phoneNumber;
     private AccountType accountType;

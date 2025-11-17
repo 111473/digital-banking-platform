@@ -29,17 +29,11 @@ public class CustomerAccountEntity {
     @Column(name = "customer_id", unique = true, nullable = false)
     private Integer customerId;  // Database generates this
 
-
     @Column(name = "application_id", unique = true, nullable = false)
     private Integer applicationId;
 
-
     @Column(name = "branch_code", length = 20)
     private String branchCode;
-
-    @NotBlank
-    @Column(name = "name", nullable = false, length = 30)
-    private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "identity_type", nullable = false, length = 20)
@@ -71,6 +65,18 @@ public class CustomerAccountEntity {
     private LocalDateTime kycNextReviewDate;
 
     @NotBlank
+    @Column(name = "first_name", nullable = false, length = 30)
+    private String firstName;
+
+    @NotBlank
+    @Column(name = "middle_name", nullable = false, length = 30)
+    private String middleName;
+
+    @NotBlank
+    @Column(name = "last_name", nullable = false, length = 30)
+    private String lastName;
+
+    @NotBlank
     @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$")
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
@@ -80,8 +86,20 @@ public class CustomerAccountEntity {
     private String email;
 
     @NotBlank
-    @Column(name = "address", nullable = false)
-    private String address;
+    @Column(name = "region", nullable = false)
+    private String region;
+
+    @NotBlank
+    @Column(name = "province", nullable = false)
+    private String province;
+
+    @NotBlank
+    @Column(name = "municipality", nullable = false)
+    private String municipality;
+
+    @NotBlank
+    @Column(name = "street", nullable = false)
+    private String street;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
