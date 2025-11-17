@@ -83,7 +83,10 @@ public class CustomerAccountController {
                 customerId,
                 contactInfo.get("phoneNumber"),
                 contactInfo.get("email"),
-                contactInfo.get("address")
+                contactInfo.get("region"),
+                contactInfo.get("province"),
+                contactInfo.get("municipality"),
+                contactInfo.get("street")
         );
         return ResponseEntity.ok(updated);
     }

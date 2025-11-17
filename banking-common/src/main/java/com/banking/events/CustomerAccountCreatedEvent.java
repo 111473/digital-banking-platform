@@ -20,7 +20,9 @@ public class CustomerAccountCreatedEvent {
     // Customer details
     private Integer customerId;
     private Integer applicationId;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String middleName;
     private String email;
     private String phoneNumber;
     private String accountType;
